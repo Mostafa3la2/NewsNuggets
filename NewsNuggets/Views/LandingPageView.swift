@@ -46,7 +46,7 @@ struct BottomView: View {
             .padding(.top, 20)
 
             Spacer()
-            
+
             Button {
                 print("hello")
             } label: {

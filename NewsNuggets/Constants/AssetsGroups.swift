@@ -15,15 +15,16 @@ protocol AssetName {
 enum Theme {
     case dark
     case light
+    case defaultTheme
 }
 
 enum AssetsGroups {
     case shared
-    var theme: Theme { return .light }
+    var theme: Theme { return .defaultTheme }
     enum GeneralAssets: AssetName {
 
         var imageName: String {
-            return "\(self)-\(AssetsGroups.shared.theme)"
+            return "\(self)\(AssetsGroups.shared.theme == .defaultTheme ? "":"-\(AssetsGroups.shared.theme)")"
         }
         case MainIcon
         case LandingPattern

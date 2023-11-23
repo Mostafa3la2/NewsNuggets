@@ -21,6 +21,7 @@ struct SplashScreenView: View {
                         .aspectRatio(contentMode: .fill)
 
                         .overlay(Text("NewsNuggets")
+                            .padding(.bottom, 20)
                             .font(.custom(Typography.bold.name, size: 32)), alignment: .bottom)
                 }
             }
