@@ -1,0 +1,40 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "LandingPageSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من السياسة إلى الترفيه, مصدرك ذو المحطة الوحيدة لتغطية شاملة لآخر الأخبار و التطورات حول العالم سيكون بين يديك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Politics to Entertainment: Your One-Stop Source for Comprehensive Coverage of the Latest News and Developments Across the Globe will be right on your hand."
+          }
+        }
+      }
+    },
+    "LandingPageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احصل على آخر الأخبار و المستجدات"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get The Latest News And Updates"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -12,7 +12,7 @@ struct SplashScreenView: View {
     var body: some View {
         ZStack {
             if self.isActive {
-                ContentView()
+                LandingPageView()
             } else {
                 ZStack {
                     Image(AssetsGroups.GeneralAssets.MainIcon.imageName)
@@ -22,6 +22,13 @@ struct SplashScreenView: View {
 
                         .overlay(Text("NewsNuggets")
                             .font(.custom(Typography.bold.name, size: 32)), alignment: .bottom)
+                }
+            }
+        }
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now()+2) {
+                withAnimation {
+                    self.isActive = true
                 }
             }
         }

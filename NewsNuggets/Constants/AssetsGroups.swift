@@ -26,6 +26,7 @@ enum AssetsGroups {
             return "\(self)-\(AssetsGroups.shared.theme)"
         }
         case MainIcon
+        case LandingPattern
     }
 }
 

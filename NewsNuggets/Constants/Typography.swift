@@ -22,7 +22,7 @@ enum Typography: String {
 
 
     private var englishFontFamily: String {
-        return "Menlo"
+        return "HelveticaNeue"
     }
 
     var FamilyName: String {
