@@ -15,7 +15,7 @@ struct MainTabBarView: View {
 
             ZStack(alignment: .bottom) {
                 TabView(selection: $selectedTab) {
-                    HomePageView()
+                    HomePageNavigationView()
                         .tag(0)
                 }
             }

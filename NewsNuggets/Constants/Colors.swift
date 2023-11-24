@@ -23,5 +23,5 @@ enum MyColors: String, ColorsDesignSystem {
 
     
 
-    case black
+    case navigationBarColor
 }
