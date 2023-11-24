@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainTabBar: View {
+struct MainTabBarView: View {
     @State var selectedTab = 0
 
     var body: some View {
@@ -20,7 +20,7 @@ struct MainTabBar: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                CustomTabBar(selectedTab: selectedTab, geometry: geometry, tabView: self)
+                CustomTabBar(selectedTab: selectedTab, geometry: geometry)
 
             }
             .ignoresSafeArea()
@@ -29,7 +29,7 @@ struct MainTabBar: View {
 }
 
 #Preview {
-    MainTabBar()
+    MainTabBarView()
 }
 
 enum TabbedScreens: Int, CaseIterable {
@@ -65,7 +65,33 @@ enum TabbedScreens: Int, CaseIterable {
     }
 }
 
-extension MainTabBar {
+struct CustomTabBar: View {
+    @State var selectedTab = 0
+    var geometry: GeometryProxy?
+    var body: some View {
+        ZStack{
+            HStack(spacing: 40){
+                ForEach((TabbedScreens.allCases), id: \.self){ item in
+                    Button{
+                        selectedTab = item.rawValue
+                    } label: {
+                        CustomTabItem(imageName: item.iconName, title: item.title, isActive: (selectedTab == item.rawValue))
+                    }
+                }
+            }
+            .padding(6)
+        }
+        .frame(width: geometry?.size.width, height: 60+(geometry?.safeAreaInsets.bottom ?? 0))
+        .background(.teal.opacity(0.8))
+        .clipShape(.rect(
+            topLeadingRadius: 25,
+            bottomLeadingRadius: 0,
+            bottomTrailingRadius: 0,
+            topTrailingRadius: 25
+        ))
+    }
+}
+extension CustomTabBar {
     func CustomTabItem(imageName: String, title: String, isActive: Bool) -> some View {
         HStack(spacing: 10){
             Image(systemName: imageName)
@@ -84,29 +110,5 @@ extension MainTabBar {
         .frame(width: isActive ? .infinity : 30, height: 50)
         .background(isActive ? .black.opacity(0.4) : .clear)
         .cornerRadius(25)
-
-    }
-}
-
-struct CustomTabBar: View {
-    @State var selectedTab = 0
-    var geometry: GeometryProxy?
-    var tabView: MainTabBar?
-    var body: some View {
-        ZStack{
-            HStack(spacing: 50){
-                ForEach((TabbedScreens.allCases), id: \.self){ item in
-                    Button{
-                        selectedTab = item.rawValue
-                    } label: {
-                        tabView?.CustomTabItem(imageName: item.iconName, title: item.title, isActive: (selectedTab == item.rawValue))
-                    }
-                }
-            }
-            .padding(6)
-        }
-        .frame(width: geometry?.size.width, height: 60+(geometry?.safeAreaInsets.bottom ?? 0))
-        .background(.teal.opacity(0.8))
-        .cornerRadius(24)
     }
 }

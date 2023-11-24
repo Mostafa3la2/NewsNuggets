@@ -64,7 +64,7 @@ struct BottomView: View {
             .background(.teal)
             .clipShape(.capsule)
             .fullScreenCover(isPresented: $isPresented, content: {
-                MainTabBar()
+                MainTabBarView()
             })
         }
         //.frame(width: geometryReader.size.width, height: geometryReader.size.height*0.4, alignment: .top)
