@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Explore" : {
+
+    },
+    "Hello, World!" : {
+
+    },
     "LandingPageSubtitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -34,6 +40,9 @@
           }
         }
       }
+    },
+    "NewsNuggets" : {
+
     }
   },
   "version" : "1.0"

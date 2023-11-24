@@ -30,6 +30,8 @@ struct LandingPageView: View {
 
 struct BottomView: View {
     var geometryReader: GeometryProxy
+    @State private var isPresented = false
+
     var body: some View {
         VStack {
             VStack(spacing: 20){
@@ -48,7 +50,7 @@ struct BottomView: View {
             Spacer()
 
             Button {
-                print("hello")
+                isPresented = true
             } label: {
                 HStack {
                     Text("Explore")
@@ -61,6 +63,9 @@ struct BottomView: View {
             .padding(.vertical, 10).padding(.horizontal, 15)
             .background(.teal)
             .clipShape(.capsule)
+            .fullScreenCover(isPresented: $isPresented, content: {
+                MainTabBar()
+            })
         }
         //.frame(width: geometryReader.size.width, height: geometryReader.size.height*0.4, alignment: .top)
         .frame(width: geometryReader.size.width, alignment: .top)
