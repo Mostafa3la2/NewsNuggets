@@ -18,10 +18,7 @@ struct MainTabBarView: View {
                     HomePageNavigationView()
                         .tag(0)
                 }
-            }
-            .overlay(alignment: .bottom) {
                 CustomTabBar(selectedTab: selectedTab, geometry: geometry)
-
             }
             .ignoresSafeArea()
         }
@@ -68,6 +65,18 @@ enum TabbedScreens: Int, CaseIterable {
 struct CustomTabBar: View {
     @State var selectedTab = 0
     var geometry: GeometryProxy?
+    var bottomSafeArea: CGFloat?
+    init(selectedTab: Int = 0, geometry: GeometryProxy? = nil) {
+        self.selectedTab = selectedTab
+        self.geometry = geometry
+
+        // why this and not geometry safearea? geometry safe area changes when keyboard expands
+        self.bottomSafeArea = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .last?.safeAreaInsets.bottom
+    }
     var body: some View {
         ZStack{
             HStack(spacing: 40){
@@ -81,7 +90,7 @@ struct CustomTabBar: View {
             }
             .padding(6)
         }
-        .frame(width: geometry?.size.width, height: 60+(geometry?.safeAreaInsets.bottom ?? 0))
+        .frame(width: geometry?.size.width, height: 60+(bottomSafeArea ?? 0))
         .background(.teal.opacity(0.8))
         .clipShape(.rect(
             topLeadingRadius: 25,

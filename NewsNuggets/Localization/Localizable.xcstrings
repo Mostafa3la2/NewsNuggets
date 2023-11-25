@@ -4,7 +4,17 @@
     "Explore" : {
 
     },
-    "Hello, World!" : {
+    "Good %@, \n%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Good %1$@, \n%2$@"
+          }
+        }
+      }
+    },
+    "Item %lld" : {
 
     },
     "LandingPageSubtitle" : {
@@ -42,6 +52,15 @@
       }
     },
     "NewsNuggets" : {
+
+    },
+    "Pinned View" : {
+
+    },
+    "User nam (email address)" : {
+
+    },
+    "User name (email address)" : {
 
     }
   },

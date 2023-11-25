@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct HomePageView: View {
+    @State var username = ""
     var body: some View {
-        VStack {
+        GeometryReader { _ in
             HomeCustomNavigationBar()
-                .frame(height: 90)
-                .background(MyColors.navigationBarColor.color)
-            Spacer()
-            Text("Hello")
-            Spacer()
+                .ignoresSafeArea(.keyboard,edges: .bottom)
+            VStack {
+                    Spacer()
+                    TextField(
+                        "User name (email address)",
+                        text: $username
+                    )
+                    Spacer()
+            }
+
         }
     }
 }
@@ -40,9 +46,10 @@ struct HomeCustomNavigationBar: View {
             Spacer()
             WeatherView(weatherData: weatherData)
         }
-        .frame(width: .infinity, alignment: .center)
         .padding(.horizontal, 20)
-
+        .frame(height: 90)
+        .background(MyColors.navigationBarColor.color)
+        
     }
 }
 
