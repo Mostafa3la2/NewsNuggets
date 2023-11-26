@@ -9,19 +9,40 @@ import SwiftUI
 
 struct HomePageView: View {
     @State var username = ""
+    let articles: [ArticlePreviewViewModel] = [
+        ArticlePreviewViewModel(id: "1", title: "Placeholder", category: "Placeholder"),
+        ArticlePreviewViewModel(id: "2", title: "Placeholder", category: "Placeholder"),
+        ArticlePreviewViewModel(id: "3", title: "Placeholder", category: "Placeholder"),
+        ArticlePreviewViewModel(id: "4", title: "Placeholder", category: "Placeholder"),
+        ArticlePreviewViewModel(id: "5", title: "Placeholder", category: "Placeholder"),
+        ArticlePreviewViewModel(id: "6", title: "Placeholder", category: "Placeholder")
+    ]
     var body: some View {
-        GeometryReader { _ in
-            HomeCustomNavigationBar()
-                .ignoresSafeArea(.keyboard,edges: .bottom)
+        GeometryReader { gr in
             VStack {
+                HomeCustomNavigationBar()
+                    .ignoresSafeArea(.keyboard,edges: .bottom)
+                VStack(alignment: .leading) {
                     Spacer()
-                    TextField(
-                        "User name (email address)",
-                        text: $username
-                    )
-                    Spacer()
-            }
+                    ScrollView(.vertical) {
+                        VStack(alignment: .leading) {
+                            CustomText(type: .heading, text: Text("Trending"))
+                            ArticlesHorizontalListView(articles: articles)
+                            HStack {
+                                CustomText(type: .heading, text: Text("Just for you"))
+                                Spacer()
+                                Button("See more") {
 
+                                }
+                            }.padding(.top, 40)
+                                .padding(.bottom, 20)
+                            ArticlesHorizontalListView(articles: articles)
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 10)
+            }
         }
     }
 }
@@ -49,7 +70,7 @@ struct HomeCustomNavigationBar: View {
         .padding(.horizontal, 20)
         .frame(height: 90)
         .background(MyColors.navigationBarColor.color)
-        
+
     }
 }
 
