@@ -17,6 +17,9 @@
     "Item %lld" : {
 
     },
+    "Just for you" : {
+
+    },
     "LandingPageSubtitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -57,10 +60,16 @@
     "Pinned View" : {
 
     },
-    "Placeholder" : {
+    "Placeholder " : {
 
     },
-    "Placeholder " : {
+    "Placeholder that should wrap to two lines" : {
+
+    },
+    "See more" : {
+
+    },
+    "Trending" : {
 
     }
   },

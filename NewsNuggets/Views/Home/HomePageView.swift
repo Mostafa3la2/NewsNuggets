@@ -37,9 +37,9 @@ struct HomePageView: View {
                             }.padding(.top, 40)
                                 .padding(.bottom, 20)
                             ArticlesHorizontalListView(articles: articles)
+                            CustomText(type: .heading, text: Text("Just for you"))
                         }
-                    }
-                    Spacer()
+                    }.scrollIndicators(.never)
                 }
                 .padding(.horizontal, 10)
             }

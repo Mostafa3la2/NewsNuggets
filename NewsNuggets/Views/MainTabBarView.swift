@@ -17,6 +17,8 @@ struct MainTabBarView: View {
                 TabView(selection: $selectedTab) {
                     HomePageNavigationView()
                         .tag(0)
+                        .toolbar(.hidden, for: .tabBar)
+
                 }
                 CustomTabBar(selectedTab: selectedTab, geometry: geometry)
             }
