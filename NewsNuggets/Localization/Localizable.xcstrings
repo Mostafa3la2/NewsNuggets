@@ -1,6 +1,19 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "Article Written By" : {
+
+    },
     "Explore" : {
 
     },
@@ -13,9 +26,6 @@
           }
         }
       }
-    },
-    "Item %lld" : {
-
     },
     "Just for you" : {
 
@@ -55,9 +65,6 @@
       }
     },
     "NewsNuggets" : {
-
-    },
-    "Pinned View" : {
 
     },
     "Placeholder " : {

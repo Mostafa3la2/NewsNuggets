@@ -34,10 +34,12 @@ struct HomePageView: View {
                                 Button("See more") {
 
                                 }
-                            }.padding(.top, 40)
-                                .padding(.bottom, 20)
+                                .foregroundStyle(Color.teal)
+                            }
+
+                            .padding(.top, 40)
+                            .padding(.bottom, 20)
                             ArticlesHorizontalListView(articles: articles)
-                            CustomText(type: .heading, text: Text("Just for you"))
                         }
                     }.scrollIndicators(.never)
                 }

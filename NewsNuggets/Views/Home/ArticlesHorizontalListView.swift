@@ -13,10 +13,13 @@ struct ArticlesHorizontalListView: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 10) {
                 ForEach(articles, id: \.self) { article in
-                    ArticleListItemView()
-                        .frame(width: 290)
-                        .frame(maxHeight:400)
-                }.scrollIndicators(.hidden)
+                    NavigationLink(destination: ArticleDetailsView()){
+                        ArticleListItemView()
+                            .frame(width: 290)
+                            .frame(maxHeight:400)
+                    }
+                    .scrollIndicators(.hidden)
+                }
             }
         }.scrollIndicators(.hidden)
     }
