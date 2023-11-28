@@ -77,8 +77,12 @@ struct ArticleDetailsView: View {
                         .clipped()
                         .background(GeometryGetter(rect: self.$headerImageRect))
 
-                    CustomText(type: .title, color: Color.white,text: Text( articleDetails.title ?? ""))
+                    CustomText(type: .navigationTitle, color: Color.white,text: Text( articleDetails.title ?? ""))
                         .offset(x: 0, y: self.getHeaderTitleOffset())
+                        .lineLimit(1)
+                        .multilineTextAlignment(.center)
+                        .truncationMode(.tail)
+                        .frame(maxWidth: 300)
 
                 }
                 .clipped()
@@ -117,12 +121,16 @@ struct ArticleDetailsView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 CustomText(type: .body, text: Text(articleDetails.body ?? ""))
                     .lineLimit(nil)
-                
+
             }
             .padding(.horizontal)
             .padding(.top, 16.0) // 2
         }.edgesIgnoringSafeArea(.all) // 3
-            .scrollIndicators(.hidden)            
+            .scrollIndicators(.hidden)
+            .toolbar(.hidden, for: .navigationBar)
+            .overlay(alignment: .topLeading) {
+                CustomBackButton()
+            }
     }
 }
 
@@ -158,3 +166,4 @@ struct RectanglePreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
+

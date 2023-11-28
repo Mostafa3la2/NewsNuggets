@@ -11,6 +11,7 @@ import SwiftUI
 enum TextTypes {
     case heading
     case title
+    case navigationTitle
     case body
     case grayBody
 }
@@ -31,6 +32,8 @@ struct CustomText: View {
             return .custom(Typography.bold.name, size: 32)
         case .title:
             return .custom(Typography.medium.name, size: 26)
+        case .navigationTitle:
+            return .custom(Typography.medium.name, size: 22)
         case .body:
             return .custom(Typography.regular.name, size: 16)
         case .grayBody:

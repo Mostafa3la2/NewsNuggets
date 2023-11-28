@@ -29,6 +29,7 @@
 		0D57EE042B0FF278009DE125 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE032B0FF278009DE125 /* MainTabBarView.swift */; };
 		0D57EE062B0FF32F009DE125 /* HomePageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */; };
 		0D57EE082B101CD6009DE125 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE072B101CD6009DE125 /* Colors.swift */; };
+		0DF66BCB2B15768600FB009C /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF66BCA2B15768600FB009C /* CustomBackButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		0D57EE032B0FF278009DE125 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageNavigationView.swift; sourceTree = "<group>"; };
 		0D57EE072B101CD6009DE125 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		0DF66BCA2B15768600FB009C /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				0D48D7502B13D40E001E8989 /* CustomText.swift */,
+				0DF66BCA2B15768600FB009C /* CustomBackButton.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				0D48D74E2B13D157001E8989 /* ArticleListItemView.swift in Sources */,
 				0D48D7552B13F2B9001E8989 /* ArticlesHorizontalListView.swift in Sources */,
 				0D57EDCB2B0EA185009DE125 /* NewsNuggetsApp.swift in Sources */,
+				0DF66BCB2B15768600FB009C /* CustomBackButton.swift in Sources */,
 				0D48D7462B114367001E8989 /* HomePageView.swift in Sources */,
 				0D48D7512B13D40E001E8989 /* CustomText.swift in Sources */,
 				0D57EE042B0FF278009DE125 /* MainTabBarView.swift in Sources */,
