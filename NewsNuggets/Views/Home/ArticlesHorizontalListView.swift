@@ -17,6 +17,7 @@ struct ArticlesHorizontalListView: View {
                         ArticleListItemView()
                             .frame(width: 290)
                             .frame(maxHeight:400)
+                            .multilineTextAlignment(.leading)
                     }
                     .scrollIndicators(.hidden)
                 }
