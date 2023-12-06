@@ -11,3 +11,4 @@ xcuserdata/**/*
 sonar-reports/
 compile_commands.json
 xcodebuild.log
+NewsNuggets/Network/APIKeys.swift
