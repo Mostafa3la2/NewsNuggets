@@ -21,7 +21,7 @@ struct HomePageView: View {
     var body: some View {
         GeometryReader { gr in
             VStack {
-                HomeCustomNavigationBar(weatherViewModel: WeatherViewModel())
+                HomeCustomNavigationBar(weatherViewModel: WeatherViewModel(weatherFetcher: WeatherFetcher()))
                     .ignoresSafeArea(.keyboard,edges: .bottom)
                 VStack(alignment: .leading) {
                     Spacer()
@@ -103,7 +103,7 @@ struct WeatherView: View {
                 Image(systemName: "sun.max")
                     .frame(width: 50, height: 50)
             }
-            Text("\(weatherViewModel.state ?? ""), \(weatherViewModel.temp ?? "")°C")
+            Text("\(weatherViewModel.state ?? "Hopefull nice"), \(weatherViewModel.temp ?? "Dunno ")°C")
         }
     }
 }

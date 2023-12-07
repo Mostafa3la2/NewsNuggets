@@ -7,9 +7,10 @@
 
 import Combine
 import SwiftUI
+import CoreLocation
 
 
-class WeatherViewModel: ObservableObject, Identifiable {
+class WeatherViewModel: NSObject, ObservableObject, Identifiable {
     private let weatherFetcher: WeatherFetchable
 
     @Published var state: String?
@@ -19,9 +20,10 @@ class WeatherViewModel: ObservableObject, Identifiable {
     var calendarDate: String?
     private var iconBaseURL = "https://openweathermap.org/img/wn/{0}@2x.png"
     private var disposables = Set<AnyCancellable>()
+    private let locationManager = CLLocationManager()
 
-    func fetchWeather() {
-        weatherFetcher.fetchWeather(forLat: "", andLong: "")
+    func fetchWeather(forLat: String, andLong: String) {
+        weatherFetcher.fetchWeather(forLat: forLat, andLong: andLong)
             .receive(on: DispatchQueue.main)
             .sink { completion in
             switch completion {
@@ -57,9 +59,44 @@ class WeatherViewModel: ObservableObject, Identifiable {
         calendarDate = dateFormatter.string(from: date)
     }
 
-    init() {
-        self.weatherFetcher = WeatherFetcher()
-        fetchWeather()
+    init(weatherFetcher: WeatherFetchable) {
+        self.weatherFetcher = weatherFetcher
+        super.init()
+        locationManager.delegate = self
+        self.requestLocationData()
         fetchDateData()
+
+    }
+    public func canAccessLocation() -> Bool {
+        let access = self.locationManager.authorizationStatus
+        print("access is \(access)")
+        return access == .authorizedAlways || access == .authorizedWhenInUse
+    }
+    func requestLocationData() {
+        if(self.locationManager.authorizationStatus == .notDetermined) {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
+        if(canAccessLocation()){
+            self.locationManager.requestLocation()
+        }
+    }
+
+}
+extension WeatherViewModel : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error){
+        print("error is \(error.localizedDescription)")
+
+    }
+
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        if let lastLocation = locations.last {
+            locationManager.stopUpdatingLocation()
+            self.fetchWeather(forLat: String(lastLocation.coordinate.latitude), andLong: String(lastLocation.coordinate.longitude))
+        }
+    }
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        locationManager.startUpdatingLocation()
     }
 }

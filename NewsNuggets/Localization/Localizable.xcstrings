@@ -4,16 +4,6 @@
     "" : {
 
     },
-    "%@ %@°C" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@°C"
-          }
-        }
-      }
-    },
     "%@, %@" : {
       "localizations" : {
         "en" : {
@@ -24,21 +14,21 @@
         }
       }
     },
+    "%@, %@°C" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@°C"
+          }
+        }
+      }
+    },
     "Article Written By" : {
 
     },
     "Explore" : {
 
-    },
-    "Good %@, \n%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Good %1$@, \n%2$@"
-          }
-        }
-      }
     },
     "Just for you" : {
 
