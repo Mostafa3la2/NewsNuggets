@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct HomePageNavigationView: View {
+    
+    func createHomePage()-> some View {
+        let locationDataViewModel = LocationRelatedDataViewModel(weatherFetcher: WeatherFetcher())
+        let newsViewModel = NewsViewModel(newsFetcher: NewsFetcher(), locationDataViewModel: locationDataViewModel)
+        return HomePageView(weatherViewModel: locationDataViewModel, newsViewModel: newsViewModel)
+    }
     var body: some View {
         NavigationStack {
-            HomePageView()
+            createHomePage()
         }.toolbar(.hidden, for: .navigationBar)
     }
 }

@@ -10,25 +10,19 @@ import Combine
 struct HomePageView: View {
 
     @State var username = ""
-    let articles: [ArticlePreviewViewModel] = [
-        ArticlePreviewViewModel(id: "1", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "2", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "3", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "4", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "5", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "6", title: "Placeholder", category: "Placeholder")
-    ]
+    @ObservedObject var weatherViewModel: LocationRelatedDataViewModel
+    @ObservedObject var newsViewModel: NewsViewModel
     var body: some View {
         GeometryReader { gr in
             VStack {
-                HomeCustomNavigationBar(weatherViewModel: WeatherViewModel(weatherFetcher: WeatherFetcher()))
+                HomeCustomNavigationBar(weatherViewModel: weatherViewModel)
                     .ignoresSafeArea(.keyboard,edges: .bottom)
                 VStack(alignment: .leading) {
                     Spacer()
                     ScrollView(.vertical) {
                         VStack(alignment: .leading) {
                             CustomText(type: .heading, text: Text("Trending"))
-                            ArticlesHorizontalListView(articles: articles)
+                            ArticlesHorizontalListView(articles: newsViewModel.headlinesDataSource)
                             HStack {
                                 CustomText(type: .heading, text: Text("Just for you"))
                                 Spacer()
@@ -39,9 +33,10 @@ struct HomePageView: View {
 
                             .padding(.top, 40)
                             .padding(.bottom, 20)
-                            ArticlesHorizontalListView(articles: articles)
+                            ArticlesHorizontalListView(articles: newsViewModel.headlinesDataSource)
                         }
                     }.scrollIndicators(.never)
+                    Spacer()
                 }
                 .padding(.horizontal, 10)
             }
@@ -50,11 +45,13 @@ struct HomePageView: View {
 }
 
 #Preview {
-    HomePageView()
+    let locationDataViewModel = LocationRelatedDataViewModel(weatherFetcher: WeatherFetcher())
+    let newsViewModel = NewsViewModel(newsFetcher: NewsFetcher(), locationDataViewModel: locationDataViewModel)
+    return HomePageView(weatherViewModel: locationDataViewModel, newsViewModel: newsViewModel)
 }
 
 struct HomeCustomNavigationBar: View {
-    @ObservedObject var weatherViewModel: WeatherViewModel
+    @ObservedObject var weatherViewModel: LocationRelatedDataViewModel
 
     var userName: String?
     var dateString: String?
@@ -81,7 +78,7 @@ struct HomeCustomNavigationBar: View {
 }
 
 struct WeatherView: View {
-    @ObservedObject var weatherViewModel: WeatherViewModel
+    @ObservedObject var weatherViewModel: LocationRelatedDataViewModel
     var body: some View {
         HStack (spacing: 10) {
             if weatherViewModel.iconURL != nil {

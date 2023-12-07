@@ -9,4 +9,6 @@ import Foundation
 
 public enum EndpointsPaths: String {
     case currentWeather = "weather"
+    case headlines = "top-headlines"
+
 }

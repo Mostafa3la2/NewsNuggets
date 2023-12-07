@@ -50,7 +50,7 @@ protocol WeatherFetchable {
 
 class WeatherFetcher: WeatherFetchable {
     func fetchWeather(forLat lat: String, andLong lon: String) -> AnyPublisher<WeatherModel, ApiError> {
-        let api = WeatherAPIBuilder.getCurrentWeatherDataForLocation(lat: "30.134112", long: "31.635317")
+        let api = WeatherAPIBuilder.getCurrentWeatherDataForLocation(lat: lat, long: lon)
         return APIManager.sendRequest(api)
     }
 }

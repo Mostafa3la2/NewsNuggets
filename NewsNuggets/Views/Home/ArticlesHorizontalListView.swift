@@ -14,7 +14,7 @@ struct ArticlesHorizontalListView: View {
             LazyHStack(spacing: 10) {
                 ForEach(articles, id: \.self) { article in
                     NavigationLink(destination: ArticleDetailsView()){
-                        ArticleListItemView()
+                        ArticleListItemView(articlePreviewViewModel: article)
                             .frame(width: 290)
                             .frame(maxHeight:400)
                             .multilineTextAlignment(.leading)
