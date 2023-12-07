@@ -8,5 +8,5 @@
 import Foundation
 
 public enum EndpointsPaths: String {
-    case test = ""
+    case currentWeather = "weather"
 }

@@ -20,10 +20,10 @@ protocol ApiManagerType {
 struct APIManager<Endpoint: EndpointType> {
     private var cancellables: [AnyCancellable] = []
 
-    static func request<P: Codable>(_ route: Endpoint) -> AnyPublisher<P, ApiError> {
+    static func sendRequest<P: Codable>(_ endpoint: Endpoint) -> AnyPublisher<P, ApiError> {
         let session = URLSession(configuration: .default)
         do {
-            let request = try self.buildRequest(from: route)
+            let request = try self.buildRequest(from: endpoint)
             NetworkLogger.log(request: request)
             return session.dataTaskPublisher(for: request)
                 .tryMap({ result in
@@ -36,7 +36,6 @@ struct APIManager<Endpoint: EndpointType> {
                     // can handle other erors here
                     throw ApiError.invalidResponse
                 })
-                //.receive(on: DispatchQueue.main) //should be left for the viewmodel to handle it
                 .decode(type: P.self, decoder: JSONDecoder())
                 .mapError({ error -> ApiError in
                     if let error = error as? ApiError {

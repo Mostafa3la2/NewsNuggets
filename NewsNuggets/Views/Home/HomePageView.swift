@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-
+import Combine
 struct HomePageView: View {
+
     @State var username = ""
     let articles: [ArticlePreviewViewModel] = [
         ArticlePreviewViewModel(id: "1", title: "Placeholder", category: "Placeholder"),
@@ -20,7 +21,7 @@ struct HomePageView: View {
     var body: some View {
         GeometryReader { gr in
             VStack {
-                HomeCustomNavigationBar()
+                HomeCustomNavigationBar(weatherViewModel: WeatherViewModel())
                     .ignoresSafeArea(.keyboard,edges: .bottom)
                 VStack(alignment: .leading) {
                     Spacer()
@@ -32,7 +33,6 @@ struct HomePageView: View {
                                 CustomText(type: .heading, text: Text("Just for you"))
                                 Spacer()
                                 Button("See more") {
-
                                 }
                                 .foregroundStyle(Color.teal)
                             }
@@ -54,20 +54,24 @@ struct HomePageView: View {
 }
 
 struct HomeCustomNavigationBar: View {
+    @ObservedObject var weatherViewModel: WeatherViewModel
+
     var userName: String?
     var dateString: String?
     var timeOfTheDay: String?
-    var weatherData: WeatherViewModel?
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
 
-                Text("Good \(timeOfTheDay ?? "Morning"), \n\(userName ?? "Username")")
-                    .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-                Text(dateString ?? "DD MM YYYY")
+                Text((weatherViewModel.timeOfDay ?? "Good morning"))
+                    .fixedSize(horizontal: false, vertical: true)
+                if userName != nil {
+                    Text(userName!)
+                }
+                Text(weatherViewModel.calendarDate ?? "DD MM YYYY")
             }
             Spacer()
-            WeatherView(weatherData: weatherData)
+            WeatherView(weatherViewModel: weatherViewModel)
         }
         .padding(.horizontal, 20)
         .frame(height: 90)
@@ -77,12 +81,29 @@ struct HomeCustomNavigationBar: View {
 }
 
 struct WeatherView: View {
-    var weatherData: WeatherViewModel?
-
+    @ObservedObject var weatherViewModel: WeatherViewModel
     var body: some View {
         HStack (spacing: 10) {
-            weatherData?.image != nil ? weatherData!.image! : Image(systemName: "sun.max")
-            Text(weatherData == nil ? "Sunny 32C" : weatherData!.state! + " " + weatherData!.temp!)
+            if weatherViewModel.iconURL != nil {
+                AsyncImage(url: URL(string:weatherViewModel.iconURL!)) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image.resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 50, maxHeight: 50)
+                    case .failure:
+                        Image(systemName: "sun.max")
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            } else {
+                Image(systemName: "sun.max")
+                    .frame(width: 50, height: 50)
+            }
+            Text("\(weatherViewModel.state ?? ""), \(weatherViewModel.temp ?? "")°C")
         }
     }
 }
