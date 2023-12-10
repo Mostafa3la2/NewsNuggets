@@ -7,19 +7,21 @@
 
 import Foundation
 // MARK: - NewsModel
-struct NewsModel: Codable {
+struct NewsModel: Codable, NewsGenericModel {
+
     let status: String?
     let totalResults: Int?
-    let articles: [Article]?
+    var articles: [ArticleModel]?
 }
 
 // MARK: - Article
-struct Article: Codable {
+struct ArticleModel: Codable {
     let source: Source?
     let author: String?
     let title, description: String?
     let url: String?
     let urlToImage: String?
+    let image: String?
     let publishedAt: String?
     let content: String?
 }

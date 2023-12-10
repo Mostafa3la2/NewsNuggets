@@ -42,12 +42,10 @@ extension NewsAPIBuilder: EndpointType {
 
     }
 }
-protocol NewsFetchable {
-    func fetchHeadlines(countryCode: String) -> AnyPublisher<NewsModel, ApiError>
-}
-
 class NewsFetcher: NewsFetchable {
-    func fetchHeadlines(countryCode: String) -> AnyPublisher<NewsModel, ApiError> {
+
+    typealias T = NewsModel
+    func fetchHeadlines(countryCode: String) -> AnyPublisher<T, ApiError> {
         let api = NewsAPIBuilder.getHeadlinesForCountry(countryCode: countryCode)
         return APIManager.sendRequest(api)
     }

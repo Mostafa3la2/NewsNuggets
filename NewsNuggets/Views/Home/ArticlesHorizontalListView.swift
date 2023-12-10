@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ArticlesHorizontalListView: View {
-    var articles: [ArticlePreviewViewModel]
+    var articles: [Article]
     var body: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 10) {
                 ForEach(articles, id: \.self) { article in
-                    NavigationLink(destination: ArticleDetailsView()){
+                    NavigationLink(destination: ArticleDetailsView(articleDetails: article)){
                         ArticleListItemView(articlePreviewViewModel: article)
                             .frame(width: 290)
                             .frame(maxHeight:400)
@@ -28,11 +28,11 @@ struct ArticlesHorizontalListView: View {
 
 #Preview {
     ArticlesHorizontalListView(articles: [
-        ArticlePreviewViewModel(id: "1", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "2", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "3", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "4", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "5", title: "Placeholder", category: "Placeholder"),
-        ArticlePreviewViewModel(id: "6", title: "Placeholder", category: "Placeholder")
+        Article(id: "1", title: "Placeholder", source: "Placeholder"),
+        Article(id: "2", title: "Placeholder", source: "Placeholder"),
+        Article(id: "3", title: "Placeholder", source: "Placeholder"),
+        Article(id: "4", title: "Placeholder", source: "Placeholder"),
+        Article(id: "5", title: "Placeholder", source: "Placeholder"),
+        Article(id: "6", title: "Placeholder", source: "Placeholder")
     ])
 }

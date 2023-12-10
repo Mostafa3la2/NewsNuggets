@@ -12,7 +12,7 @@ struct ArticleDetailsView: View {
     private let collapsedImageHeight: CGFloat = 75
     @State private var titleRect: CGRect = .zero
     @State private var headerImageRect: CGRect = .zero
-    var articleDetails = ArticleDetailsViewModel(title: "Placeholder for article title", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius tempus mi nec porttitor. In posuere aliquet justo, non luctus turpis tristique sed. Nulla quam sem, maximus eget quam non, pulvinar tempor mi. Nulla ultrices commodo elit at dapibus. Nunc rutrum eros eu tempor auctor. Sed vitae nisi consectetur, pretium ipsum sed, ultricies augue. Sed maximus purus neque, et dapibus nunc ornare ut. Suspendisse sed lectus laoreet, elementum mi eget, laoreet ligula. Aliquam laoreet condimentum accumsan. Sed eget varius sem. Nulla posuere cursus libero sed blandit. Nulla euismod, ex vitae rutrum finibus, lorem enim semper felis, eget efficitur tortor leo a quam. Phasellus eget semper leo. Aliquam sit amet nibh viverra, pulvinar quam nec, imperdiet tortor. In hac habitasse platea dictumst. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos", author: ArticleAuthor(name: "name placeholder"), date: "DD MM YYY", readTime: "XX min read")
+    var articleDetails: Article
     private func getHeaderTitleOffset() -> CGFloat {
         let currentYPos = titleRect.midY
 
@@ -109,17 +109,17 @@ struct ArticleDetailsView: View {
                     VStack(alignment: .leading) {
                         CustomText(type: .body, text: Text("Article Written By"))
                             .foregroundColor(.gray)
-                        CustomText(type: .body, color: Color.teal,text: Text(articleDetails.author?.name ?? ""))
+                        CustomText(type: .body, color: Color.teal,text: Text(articleDetails.author?.name ?? articleDetails.source ?? ""))
                     }
                 }
 
-                CustomText(type: .grayBody, text: Text( "\(articleDetails.date ?? ""), \(articleDetails.readTime ?? "")"))
+                CustomText(type: .grayBody, text: Text( articleDetails.publishedAt ?? ""))
                     .foregroundColor(.gray)
 
                 CustomText(type:.title, text: Text(articleDetails.title ?? ""))
                     .background(GeometryGetter(rect: self.$titleRect))
                     .frame(maxWidth: .infinity, alignment: .center)
-                CustomText(type: .body, text: Text(articleDetails.body ?? ""))
+                CustomText(type: .body, text: Text(articleDetails.content ?? ""))
                     .lineLimit(nil)
 
             }
@@ -137,13 +137,10 @@ struct ArticleDetailsView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleDetailsView()
+        ArticleDetailsView(articleDetails: Article(id: "1", title: "Test", source: "category"))
     }
 }
 
-#Preview {
-    ArticleDetailsView()
-}
 // 12
 struct GeometryGetter: View {
     @Binding var rect: CGRect

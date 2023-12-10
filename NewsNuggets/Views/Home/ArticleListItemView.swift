@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ArticleListItemView: View {
-    var articlePreviewViewModel: ArticlePreviewViewModel
+    var articlePreviewViewModel: Article
     var body: some View {
         VStack(alignment: .leading) {
             if articlePreviewViewModel.imageURL != nil {
@@ -53,7 +53,7 @@ struct ArticleListItemView: View {
             VStack(alignment: .leading, spacing: 10) {
                 CustomText(type: .title, text: Text(articlePreviewViewModel.title ?? ""))
                     .lineLimit(2)
-                CustomText(type: .grayBody, text: Text(articlePreviewViewModel.category ?? ""))
+                CustomText(type: .grayBody, text: Text(articlePreviewViewModel.source ?? ""))
                     .lineLimit(1)
             }
             .padding(.leading, 10)
@@ -62,5 +62,5 @@ struct ArticleListItemView: View {
 }
 
 #Preview {
-    ArticleListItemView(articlePreviewViewModel: ArticlePreviewViewModel(id: "1",title: "test", category: "Test"))
+    ArticleListItemView(articlePreviewViewModel: Article(id: "1",title: "test", source: "Test"))
 }

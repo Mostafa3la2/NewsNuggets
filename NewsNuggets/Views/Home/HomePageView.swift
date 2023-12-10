@@ -30,13 +30,13 @@ struct HomePageView: View {
                                 }
                                 .foregroundStyle(Color.teal)
                             }
-
                             .padding(.top, 40)
                             .padding(.bottom, 20)
                             ArticlesHorizontalListView(articles: newsViewModel.headlinesDataSource)
                         }
+                        .padding(.bottom, 50)
+
                     }.scrollIndicators(.never)
-                    Spacer()
                 }
                 .padding(.horizontal, 10)
             }
@@ -54,8 +54,6 @@ struct HomeCustomNavigationBar: View {
     @ObservedObject var weatherViewModel: LocationRelatedDataViewModel
 
     var userName: String?
-    var dateString: String?
-    var timeOfTheDay: String?
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

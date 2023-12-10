@@ -8,25 +8,41 @@
 import Combine
 import SwiftUI
 
-struct ArticlePreviewViewModel: Hashable {
+struct Article: Hashable {
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        return lhs.id == rhs.id
+    }
 
     var id: String?
     var title: String?
     var category: String?
     var imageURL: String?
-}
-
-struct ArticleDetailsViewModel {
-    var id: String?
-    var title: String?
-    var body: String?
-    var category: String?
+    var content: String?
+    var publishedAt: String?
     var author: ArticleAuthor?
-    var date: String?
-    var readTime: String?
+    var source: String?
+    var description: String?
+
+    init(articleGenericMode: ArticleModel) {
+        self.id = UUID().uuidString
+        self.title = articleGenericMode.title
+        self.imageURL = articleGenericMode.image ?? articleGenericMode.urlToImage
+        self.content = articleGenericMode.content
+        self.publishedAt = articleGenericMode.publishedAt?.toDateTime()?.ddMMMyyyy
+        self.author = ArticleAuthor(name: articleGenericMode.author)
+        self.source = articleGenericMode.source?.name
+        self.description = articleGenericMode.description
+    }
+
+    // for preview
+    init(id: String?, title: String?, source: String?) {
+        self.id = id
+        self.title = title
+        self.source = source
+    }
 }
 
-struct ArticleAuthor {
+struct ArticleAuthor: Hashable {
     var id: String?
     var name: String?
     var imageURL: String?
@@ -35,40 +51,40 @@ struct ArticleAuthor {
 
 class NewsViewModel: NSObject, ObservableObject, Identifiable {
 
-    @Published var newsModel: NewsModel?
-    private let newsFetcher: NewsFetchable
+    private let newsFetcher: any NewsFetchable
     private var countryCode: String?
     private var disposables = Set<AnyCancellable>()
-    @Published var headlinesDataSource: [ArticlePreviewViewModel] = []
-    init(newsFetcher: NewsFetchable, locationDataViewModel: LocationRelatedDataViewModel) {
+    @Published var headlinesDataSource: [Article] = []
+    init(newsFetcher: some NewsFetchable, locationDataViewModel: LocationRelatedDataViewModel) {
         self.newsFetcher = newsFetcher
         super.init()
         locationDataViewModel.$countryCode
             .sink { [weak self] countryCode in
                 self?.countryCode = countryCode?.lowercased()
-                self?.getHeadlines()
+                self?.getHeadlines(newsFetcher: newsFetcher)
             }
             .store(in: &disposables)
-
     }
 
-    func getHeadlines() {
-        newsFetcher.fetchHeadlines(countryCode: countryCode ?? "")
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self.headlinesDataSource = []
-                    print("error is \(error.errorDescription ?? "")")
+    func getHeadlines(newsFetcher: some NewsFetchable) {
+        if countryCode != nil {
+            newsFetcher.fetchHeadlines(countryCode: countryCode!)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self.headlinesDataSource = []
+                        print("error is \(error.errorDescription ?? "")")
+                    }
+                } receiveValue: { newsModel in
+                    if newsModel.articles != nil {
+                        self.headlinesDataSource = newsModel.articles!.compactMap { Article(articleGenericMode: $0)}
+                    }
                 }
-            } receiveValue: { newsModel in
-                if newsModel.articles != nil {
-                    self.headlinesDataSource = newsModel.articles!.compactMap { ArticlePreviewViewModel(id: ($0.author ?? "")+($0.publishedAt ?? ""), title: $0.title, category: $0.author, imageURL: $0.urlToImage)}
-                }
-            }
-            .store(in: &disposables)
+                .store(in: &disposables)
+        }
     }
 
 }

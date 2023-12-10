@@ -31,7 +31,7 @@ struct CustomText: View {
         case .heading:
             return .custom(Typography.bold.name, size: 32)
         case .title:
-            return .custom(Typography.medium.name, size: 26)
+            return .custom(Typography.medium.name, size: 24)
         case .navigationTitle:
             return .custom(Typography.medium.name, size: 22)
         case .body:
