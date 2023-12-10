@@ -16,7 +16,7 @@ struct ArticlesHorizontalListView: View {
                     NavigationLink(destination: ArticleDetailsView(articleDetails: article)){
                         ArticleListItemView(articlePreviewViewModel: article)
                             .frame(width: 290)
-                            .frame(maxHeight:400)
+                            .frame(height: 400)
                             .multilineTextAlignment(.leading)
                     }
                     .scrollIndicators(.hidden)

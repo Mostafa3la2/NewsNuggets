@@ -16,6 +16,7 @@ struct ArticleListItemView: View {
                     switch phase {
                     case .empty:
                         ProgressView()
+                            .frame(width:270, height: 270)
                     case .success(let image):
                         image.resizable()
                             .scaledToFill()
