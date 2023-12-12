@@ -51,17 +51,19 @@ struct ArticleAuthor: Hashable {
 
 class NewsViewModel: NSObject, ObservableObject, Identifiable {
 
-    private let newsFetcher: any NewsFetchable
+    private let newsFetcher: any Collection<any NewsFetchable>
     private var countryCode: String?
     private var disposables = Set<AnyCancellable>()
     @Published var headlinesDataSource: [Article] = []
-    init(newsFetcher: some NewsFetchable, locationDataViewModel: LocationRelatedDataViewModel) {
+    init(newsFetcher: some Collection<any NewsFetchable>, locationDataViewModel: LocationRelatedDataViewModel) {
         self.newsFetcher = newsFetcher
         super.init()
         locationDataViewModel.$countryCode
             .sink { [weak self] countryCode in
                 self?.countryCode = countryCode?.lowercased()
-                self?.getHeadlines(newsFetcher: newsFetcher)
+                for i in newsFetcher {
+                    self?.getHeadlines(newsFetcher: i)
+                }
             }
             .store(in: &disposables)
     }
@@ -80,7 +82,8 @@ class NewsViewModel: NSObject, ObservableObject, Identifiable {
                     }
                 } receiveValue: { newsModel in
                     if newsModel.articles != nil {
-                        self.headlinesDataSource = newsModel.articles!.compactMap { Article(articleGenericMode: $0)}
+                        self.headlinesDataSource.append(contentsOf: newsModel.articles!.compactMap { Article(articleGenericMode: $0)})
+                        self.headlinesDataSource.shuffle()
                     }
                 }
                 .store(in: &disposables)

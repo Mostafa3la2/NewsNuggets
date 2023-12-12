@@ -46,7 +46,7 @@ struct HomePageView: View {
 
 #Preview {
     let locationDataViewModel = LocationRelatedDataViewModel(weatherFetcher: WeatherFetcher())
-    let newsViewModel = NewsViewModel(newsFetcher: NewsFetcher(), locationDataViewModel: locationDataViewModel)
+    let newsViewModel = NewsViewModel(newsFetcher: [NewsFetcher()], locationDataViewModel: locationDataViewModel)
     return HomePageView(weatherViewModel: locationDataViewModel, newsViewModel: newsViewModel)
 }
 
