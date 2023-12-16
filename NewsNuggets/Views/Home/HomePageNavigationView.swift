@@ -13,7 +13,7 @@ struct HomePageNavigationView: View {
     var mock = false
     func createHomePage()-> some View {
         let collection: any Collection<any NewsFetchable> = [NewsFetcher(), GNewsFetcher()]
-        let homepageViewModel = HomepageViewModel(newsFetcher: collection, weatherFetcher: WeatherFetcher(), modelContext: modelContext)
+        let homepageViewModel = HomepageViewModel(newsFetcher: collection,  categoriesManager: CategoriesManager(modelContext: modelContext))
         return HomePageView(homepageViewModel: homepageViewModel)
 
     }
