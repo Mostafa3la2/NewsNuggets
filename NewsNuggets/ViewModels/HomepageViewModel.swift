@@ -39,6 +39,7 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
         super.init()
         bindCountryCodeToNewsCall()
         getUserCategories()
+        checkLocationToGetCoordinates()
     }
     func bindCountryCodeToNewsCall() {
         $countryCode
@@ -133,13 +134,6 @@ class MockHomePageViewModel: HomepageViewModelProtocol {
         Article(id: "246", title: "Dummy Article five", source: "BEIN"),
         Article(id: "235", title: "Dummy Article six", source: "ON"),
     ]
-
-    var state: String? = "Cool"
-    var temp: String? = "32"
-    var countryCode: String? = "EG"
-    var iconURL: String? = "https://openweathermap.org/img/wn/10d@2x.png"
-    var timeOfDay: String? = "Good morning"
-    var calendarDate: String? = "12/Dec/2023"
 
     var userCategories: [CategoriesModel] = []
 
