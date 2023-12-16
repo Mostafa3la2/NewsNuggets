@@ -16,7 +16,7 @@ protocol HomepageViewModelProtocol: ArticleViewModelProtocol, UserPreferencesVie
 }
 class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewModelProtocol {
     private let newsFetcher: any Collection<any NewsFetchable>
-    private var modelContext: ModelContext
+    private let categoriesManager: CategoriesManager
     private let locationManager = CLLocationManager()
     private var disposables = Set<AnyCancellable>()
 
@@ -33,12 +33,12 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
     var calendarDate: String?
     private var apiInProgress=false
 
-    init(newsFetcher: some Collection<any NewsFetchable>, modelContext: ModelContext) {
+    init(newsFetcher: some Collection<any NewsFetchable>, categoriesManager: CategoriesManager) {
         self.newsFetcher = newsFetcher
-        self.modelContext = modelContext
+        self.categoriesManager = categoriesManager
         super.init()
         bindCountryCodeToNewsCall()
-        getUserCategories()
+        userCategories = categoriesManager.fetchCategories() ?? []
         checkLocationToGetCoordinates()
     }
     func bindCountryCodeToNewsCall() {
@@ -85,20 +85,6 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
                 print("Could not determine country code")
             }
         }
-    }
-    func getUserCategories() {
-        do {
-            let descriptor = FetchDescriptor<CategoriesModel>(sortBy: [SortDescriptor(\.name)])
-            userCategories = try modelContext.fetch(descriptor)
-        } catch {
-            print("Fetch failed")
-        }
-    }
-    func addCategory(category: CategoriesModel) {
-        modelContext.insert(category)
-    }
-    func deleteCategory(category: CategoriesModel) {
-        modelContext.delete(category)
     }
 }
 extension HomepageViewModel {
