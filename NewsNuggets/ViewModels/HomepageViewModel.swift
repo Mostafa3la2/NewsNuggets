@@ -78,7 +78,7 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
     }
     func getHeadlines(newsFetcher: some NewsFetchable, countryCode: String?) {
         if countryCode != nil {
-            newsFetcher.fetchHeadlines(countryCode: countryCode!)
+            newsFetcher.fetchHeadlines(countryCode: countryCode!.lowercased())
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
