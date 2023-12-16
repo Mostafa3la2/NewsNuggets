@@ -37,6 +37,10 @@
 		0D57EE042B0FF278009DE125 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE032B0FF278009DE125 /* MainTabBarView.swift */; };
 		0D57EE062B0FF32F009DE125 /* HomePageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */; };
 		0D57EE082B101CD6009DE125 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE072B101CD6009DE125 /* Colors.swift */; };
+		0D64715B2B2D27B100C0FE36 /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64715A2B2D27B100C0FE36 /* CategoriesModel.swift */; };
+		0D64715F2B2D457700C0FE36 /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64715E2B2D457700C0FE36 /* HomepageViewModel.swift */; };
+		0D6471612B2DF12000C0FE36 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6471602B2DF12000C0FE36 /* Strings.swift */; };
+		0D6471652B2DF9E800C0FE36 /* UserPreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6471642B2DF9E800C0FE36 /* UserPreferencesViewModel.swift */; };
 		0DB3CC8F2B1FD51800835810 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3CC8E2B1FD51800835810 /* APIManager.swift */; };
 		0DB3CC912B1FEA0400835810 /* EndpointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3CC902B1FEA0400835810 /* EndpointType.swift */; };
 		0DB3CC932B1FEA5E00835810 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3CC922B1FEA5E00835810 /* HTTPMethod.swift */; };
@@ -100,6 +104,10 @@
 		0D57EE032B0FF278009DE125 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageNavigationView.swift; sourceTree = "<group>"; };
 		0D57EE072B101CD6009DE125 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		0D64715A2B2D27B100C0FE36 /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
+		0D64715E2B2D457700C0FE36 /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
+		0D6471602B2DF12000C0FE36 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		0D6471642B2DF9E800C0FE36 /* UserPreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesViewModel.swift; sourceTree = "<group>"; };
 		0DB3CC8E2B1FD51800835810 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		0DB3CC902B1FEA0400835810 /* EndpointType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointType.swift; sourceTree = "<group>"; };
 		0DB3CC922B1FEA5E00835810 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -196,6 +204,7 @@
 		0D48D7472B114FB0001E8989 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0D6471592B2D279D00C0FE36 /* Categories */,
 				0D1354692B2243FF00208865 /* News */,
 				0D1354642B21381600208865 /* Weather */,
 			);
@@ -207,6 +216,8 @@
 			children = (
 				0D48D7492B114FCE001E8989 /* LocationRelatedDataViewModel.swift */,
 				0D48D7522B13DD70001E8989 /* ArticleViewModel.swift */,
+				0D64715E2B2D457700C0FE36 /* HomepageViewModel.swift */,
+				0D6471642B2DF9E800C0FE36 /* UserPreferencesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -302,6 +313,7 @@
 				0D57EDFA2B0EA8F3009DE125 /* AssetsGroups.swift */,
 				0D57EDFC2B0EB2BE009DE125 /* Typography.swift */,
 				0D57EE072B101CD6009DE125 /* Colors.swift */,
+				0D6471602B2DF12000C0FE36 /* Strings.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -312,6 +324,14 @@
 				0D57EE012B0EC8C0009DE125 /* Localizable.xcstrings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		0D6471592B2D279D00C0FE36 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				0D64715A2B2D27B100C0FE36 /* CategoriesModel.swift */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		0DB3CC8D2B1FD50100835810 /* Network */ = {
@@ -475,6 +495,7 @@
 				0D1354682B213ABA00208865 /* WeatherModel.swift in Sources */,
 				0D57EE082B101CD6009DE125 /* Colors.swift in Sources */,
 				0DB3CCA22B1FF1BB00835810 /* NetworkLogging.swift in Sources */,
+				0D64715F2B2D457700C0FE36 /* HomepageViewModel.swift in Sources */,
 				0D57EDCF2B0EA185009DE125 /* Item.swift in Sources */,
 				0D57EDFB2B0EA8F3009DE125 /* AssetsGroups.swift in Sources */,
 				0D1354732B26699000208865 /* GNewsAPIBuilder.swift in Sources */,
@@ -485,6 +506,7 @@
 				0D57EDCB2B0EA185009DE125 /* NewsNuggetsApp.swift in Sources */,
 				0DB3CC932B1FEA5E00835810 /* HTTPMethod.swift in Sources */,
 				0DB3CC912B1FEA0400835810 /* EndpointType.swift in Sources */,
+				0D6471652B2DF9E800C0FE36 /* UserPreferencesViewModel.swift in Sources */,
 				0D1354602B2135FF00208865 /* APIKeys.swift in Sources */,
 				0DB3CC9B2B1FEE3B00835810 /* EndpointsPaths.swift in Sources */,
 				0D13546B2B22441700208865 /* NewsAPIBuilder.swift in Sources */,
@@ -492,6 +514,8 @@
 				0D48D7462B114367001E8989 /* HomePageView.swift in Sources */,
 				0D13546D2B22442300208865 /* NewsModel.swift in Sources */,
 				0D1354752B26827600208865 /* Generics.swift in Sources */,
+				0D6471612B2DF12000C0FE36 /* Strings.swift in Sources */,
+				0D64715B2B2D27B100C0FE36 /* CategoriesModel.swift in Sources */,
 				0D48D7512B13D40E001E8989 /* CustomText.swift in Sources */,
 				0D57EE042B0FF278009DE125 /* MainTabBarView.swift in Sources */,
 				0DB3CC8F2B1FD51800835810 /* APIManager.swift in Sources */,

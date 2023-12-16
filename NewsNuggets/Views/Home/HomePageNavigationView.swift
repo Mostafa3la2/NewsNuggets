@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct HomePageNavigationView: View {
-    
-    func createHomePage()-> some View {
+    @Environment(\.modelContext) var modelContext
 
+    func createHomePage()-> some View {
         let collection: any Collection<any NewsFetchable> = [NewsFetcher(), GNewsFetcher()]
-        let locationDataViewModel = LocationRelatedDataViewModel(weatherFetcher: WeatherFetcher())
-        let newsViewModel = NewsViewModel(newsFetcher: collection, locationDataViewModel: locationDataViewModel)
-        return HomePageView(weatherViewModel: locationDataViewModel, newsViewModel: newsViewModel)
+        let homepageViewModel = HomepageViewModel(newsFetcher: collection, weatherFetcher: WeatherFetcher(), modelContext: modelContext)
+        return HomePageView(homepageViewModel: homepageViewModel)
     }
     var body: some View {
         NavigationStack {

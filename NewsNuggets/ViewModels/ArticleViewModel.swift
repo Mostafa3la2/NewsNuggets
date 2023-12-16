@@ -8,6 +8,9 @@
 import Combine
 import SwiftUI
 
+protocol ArticleViewModelProtocol {
+    var headlinesDataSource: [Article] { get }
+}
 struct Article: Hashable {
     static func == (lhs: Article, rhs: Article) -> Bool {
         return lhs.id == rhs.id
@@ -49,45 +52,3 @@ struct ArticleAuthor: Hashable {
 }
 
 
-class NewsViewModel: NSObject, ObservableObject, Identifiable {
-
-    private let newsFetcher: any Collection<any NewsFetchable>
-    private var countryCode: String?
-    private var disposables = Set<AnyCancellable>()
-    @Published var headlinesDataSource: [Article] = []
-    init(newsFetcher: some Collection<any NewsFetchable>, locationDataViewModel: LocationRelatedDataViewModel) {
-        self.newsFetcher = newsFetcher
-        super.init()
-        locationDataViewModel.$countryCode
-            .sink { [weak self] countryCode in
-                self?.countryCode = countryCode?.lowercased()
-                for i in newsFetcher {
-                    self?.getHeadlines(newsFetcher: i)
-                }
-            }
-            .store(in: &disposables)
-    }
-
-    func getHeadlines(newsFetcher: some NewsFetchable) {
-        if countryCode != nil {
-            newsFetcher.fetchHeadlines(countryCode: countryCode!)
-                .receive(on: DispatchQueue.main)
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        self.headlinesDataSource = []
-                        print("error is \(error.errorDescription ?? "")")
-                    }
-                } receiveValue: { newsModel in
-                    if newsModel.articles != nil {
-                        self.headlinesDataSource.append(contentsOf: newsModel.articles!.compactMap { Article(articleGenericMode: $0)})
-                        self.headlinesDataSource.shuffle()
-                    }
-                }
-                .store(in: &disposables)
-        }
-    }
-
-}
