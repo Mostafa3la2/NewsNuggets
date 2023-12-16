@@ -11,12 +11,11 @@ import CoreLocation
 import SwiftData
 
 
-protocol HomepageViewModelProtocol: WeatherViewModelProtocol, ArticleViewModelProtocol, UserPreferencesViewModelProtocol, ObservableObject {
+protocol HomepageViewModelProtocol: ArticleViewModelProtocol, UserPreferencesViewModelProtocol, ObservableObject {
 
 }
 class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewModelProtocol {
     private let newsFetcher: any Collection<any NewsFetchable>
-    private let weatherFetcher: WeatherFetchable
     private var modelContext: ModelContext
     private let locationManager = CLLocationManager()
     private var disposables = Set<AnyCancellable>()
@@ -34,15 +33,11 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
     var calendarDate: String?
     private var apiInProgress=false
 
-    init(newsFetcher: some Collection<any NewsFetchable>, weatherFetcher: WeatherFetchable, modelContext: ModelContext) {
+    init(newsFetcher: some Collection<any NewsFetchable>, modelContext: ModelContext) {
         self.newsFetcher = newsFetcher
-        self.weatherFetcher = weatherFetcher
         self.modelContext = modelContext
         super.init()
         bindCountryCodeToNewsCall()
-        locationManager.delegate = self
-        self.requestLocationData()
-        fetchDateData()
         getUserCategories()
     }
     func bindCountryCodeToNewsCall() {
@@ -51,28 +46,6 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
                 for i in self.newsFetcher {
                     self.getHeadlines(newsFetcher: i, countryCode: code)
                 }
-            }
-            .store(in: &disposables)
-    }
-    func fetchWeather(forLat: String, andLong: String) {
-        guard !apiInProgress else {
-            return
-        }
-        weatherFetcher.fetchWeather(forLat: forLat, andLong: andLong)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    self.apiInProgress = false
-                    break
-                case .failure(let error):
-                    self.apiInProgress = false
-                    print("error is \(error.errorDescription ?? "")")
-                }
-            } receiveValue: { weatherModel in
-                self.temp = String(floor(weatherModel.main?.temp ?? 0))
-                self.state = String(weatherModel.weather?.first?.main ?? "")
-                self.iconURL = URLConstants.WEATHER_ICON_BASE_URL.value.replacingOccurrences(of: "{0}", with: weatherModel.weather?.first?.icon ?? "")
             }
             .store(in: &disposables)
     }
@@ -95,38 +68,6 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
                     }
                 }
                 .store(in: &disposables)
-        }
-    }
-    func fetchDateData() {
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        if (5..<12).contains(hour) {
-            timeOfDay = "Good morning"
-        } else if (12..<18).contains(hour) {
-            timeOfDay = "Good afternoon"
-
-        } else if hour < 24 {
-            timeOfDay = "Good evening"
-
-        } else {
-            timeOfDay = "Goodnight"
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        calendarDate = dateFormatter.string(from: date)
-    }
-    public func canAccessLocation() -> Bool {
-        let access = self.locationManager.authorizationStatus
-        print("access is \(access)")
-        return access == .authorizedAlways || access == .authorizedWhenInUse
-    }
-    func requestLocationData() {
-        if(self.locationManager.authorizationStatus == .notDetermined) {
-            self.locationManager.requestWhenInUseAuthorization()
-        }
-        if(canAccessLocation()){
-            self.locationManager.requestLocation()
         }
     }
     private func getCountryCode(location: CLLocation) {
@@ -159,33 +100,26 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
         modelContext.delete(category)
     }
 }
-extension HomepageViewModel : CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager,
-                         didFailWithError error: Error){
-        print("error is \(error.localizedDescription)")
+extension HomepageViewModel {
+    func checkLocationToGetCoordinates() {
+        LocationServicesManager.shared.requestAuthorization()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(locationUpdated(_:)),
+                                               name: .locationUpdated,
+                                               object: nil)
+        LocationServicesManager.shared.startListening()
 
     }
 
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
-        if let lastLocation = locations.last {
-            locationManager.stopUpdatingLocation()
-            if apiInProgress == false {
-                self.fetchWeather(forLat: String(lastLocation.coordinate.latitude), andLong: String(lastLocation.coordinate.longitude))
-                self.getCountryCode(location: lastLocation)
-                self.apiInProgress = true
+    @objc private func locationUpdated(_ notification: Notification) {
+        if let value = notification.userInfo?["locations"] as? [Any] {
+            if value.count > 0 {
+                if let location = value.last as? CLLocation {
+                    print("location = \(location.coordinate.latitude) , \(location.coordinate.longitude)")
+                    self.getCountryCode(location: location)
+                }
             }
-        }
-    }
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = self.locationManager.authorizationStatus
-        switch status {
-        case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
-            locationManager.startUpdatingLocation()
-        case .denied, .restricted:
-            break
-        default:
-            print("Wrong authorization status \(status)")
+            NotificationCenter.default.removeObserver(self)
         }
     }
 }

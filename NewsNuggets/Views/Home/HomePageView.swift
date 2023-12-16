@@ -11,11 +11,18 @@ struct HomePageView<T>: View where T: HomepageViewModelProtocol {
 
     @State var username = ""
     @ObservedObject var homepageViewModel: T
+
+
     var body: some View {
         GeometryReader { gr in
             VStack {
-                HomeCustomNavigationBar<T>()
-                    .ignoresSafeArea(.keyboard,edges: .bottom)
+                if homepageViewModel is MockHomePageViewModel {
+                    WeatherNavigationBar<MockWeatherViewModel>(weatherViewModel: MockWeatherViewModel())
+                        .ignoresSafeArea(.keyboard,edges: .bottom)
+                } else {
+                    WeatherNavigationBar<WeatherViewModel>(weatherViewModel: WeatherViewModel(weatherFetcher: WeatherFetcher()))
+                        .ignoresSafeArea(.keyboard,edges: .bottom)
+                }
                 VStack(alignment: .leading) {
                     Spacer()
                     ScrollView(.vertical) {
@@ -49,60 +56,7 @@ struct HomePageView<T>: View where T: HomepageViewModelProtocol {
 }
 
 #Preview {
-
     return HomePageView<MockHomePageViewModel>(homepageViewModel: MockHomePageViewModel())
 }
 
-struct HomeCustomNavigationBar<T>: View where T: HomepageViewModelProtocol {
-    @EnvironmentObject var homepageViewModel: T
 
-    var userName: String?
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-
-                Text((homepageViewModel.timeOfDay ?? "Good morning"))
-                    .fixedSize(horizontal: false, vertical: true)
-                if userName != nil {
-                    Text(userName!)
-                }
-                Text(homepageViewModel.calendarDate ?? "DD MM YYYY")
-            }
-            Spacer()
-            WeatherView<T>()
-        }
-        .padding(.horizontal, 20)
-        .frame(height: 90)
-        .background(MyColors.navigationBarColor.color)
-
-    }
-}
-
-struct WeatherView<T>: View where T: HomepageViewModelProtocol {
-    @EnvironmentObject var homepageViewModel: T
-
-    var body: some View {
-        HStack (spacing: 10) {
-            if homepageViewModel.iconURL != nil {
-                AsyncImage(url: URL(string:homepageViewModel.iconURL!)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image.resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: 50, maxHeight: 50)
-                    case .failure:
-                        Image(systemName: "sun.max")
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
-            } else {
-                Image(systemName: "sun.max")
-                    .frame(width: 50, height: 50)
-            }
-            Text("\(homepageViewModel.state ?? "Hopefull nice"), \(homepageViewModel.temp ?? "Dunno ")°C")
-        }
-    }
-}
