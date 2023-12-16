@@ -9,19 +9,29 @@ import SwiftUI
 
 struct HomePageNavigationView: View {
     @Environment(\.modelContext) var modelContext
-
+    
+    var mock = false
     func createHomePage()-> some View {
         let collection: any Collection<any NewsFetchable> = [NewsFetcher(), GNewsFetcher()]
         let homepageViewModel = HomepageViewModel(newsFetcher: collection, weatherFetcher: WeatherFetcher(), modelContext: modelContext)
         return HomePageView(homepageViewModel: homepageViewModel)
+
+    }
+    func createMockHomePage() -> some View {
+        return HomePageView(homepageViewModel: MockHomePageViewModel())
+
     }
     var body: some View {
         NavigationStack {
-            createHomePage()
+            if mock {
+                createMockHomePage()
+            } else {
+                createHomePage()
+            }
         }.toolbar(.hidden, for: .navigationBar)
     }
 }
 
 #Preview {
-    HomePageNavigationView()
+    HomePageNavigationView(mock: true)
 }
