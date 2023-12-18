@@ -130,6 +130,7 @@ struct ArticleDetailsView: View {
             .toolbar(.hidden, for: .navigationBar)
             .overlay(alignment: .topLeading) {
                 CustomBackButton()
+                    .padding(.top, -10)
             }
     }
 }
