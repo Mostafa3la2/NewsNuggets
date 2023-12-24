@@ -10,6 +10,7 @@ import SwiftUI
 
 protocol ArticleViewModelProtocol {
     var headlinesDataSource: [Article] { get }
+    var tailoredNewsDataSource: [Article] { get }
 }
 struct Article: Hashable {
     static func == (lhs: Article, rhs: Article) -> Bool {

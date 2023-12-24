@@ -24,7 +24,7 @@ class CategoriesManager: CategoriesManagable {
     func fetchCategories() -> [CategoriesModel]? {
         do {
             let descriptor = FetchDescriptor<CategoriesModel>(sortBy: [SortDescriptor(\.name)])
-            var categories = try modelContext.fetch(descriptor)
+            let categories = try modelContext.fetch(descriptor)
             return categories
         } catch {
             print("Fetch failed")

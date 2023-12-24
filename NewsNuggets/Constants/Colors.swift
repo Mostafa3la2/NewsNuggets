@@ -21,7 +21,9 @@ extension ColorsDesignSystem {
 }
 enum MyColors: String, ColorsDesignSystem {
 
-    
+
 
     case navigationBarColor
+    case BabyBlue
+    case BackgroundGray
 }

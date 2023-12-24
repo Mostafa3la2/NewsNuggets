@@ -20,13 +20,15 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
     private let locationManager = CLLocationManager()
     private var disposables = Set<AnyCancellable>()
 
-    var storedCategories: [CategoriesModel] = [CategoriesModel(name: "technology"), CategoriesModel(name: "business"), CategoriesModel(name: "entertainment"), CategoriesModel(name: "general"), CategoriesModel(name: "health"), CategoriesModel(name: "science"), CategoriesModel(name: "sports"), CategoriesModel(name: "technology")]
+    var storedCategories: [CategoriesModel] = [CategoriesModel(name: "technology"), CategoriesModel(name: "business"), CategoriesModel(name: "entertainment"), CategoriesModel(name: "general"), CategoriesModel(name: "health"), CategoriesModel(name: "science"), CategoriesModel(name: "sports")]
 
     @Published var state: String?
     @Published var temp: String?
     @Published var iconURL: String?
     @Published var countryCode: String?
     @Published var headlinesDataSource: [Article] = []
+    @Published var tailoredNewsDataSource: [Article] = []
+
     var userCategories: [CategoriesModel] = []
 
     var timeOfDay: String?
@@ -37,35 +39,66 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
         self.newsFetcher = newsFetcher
         self.categoriesManager = categoriesManager
         super.init()
-        bindCountryCodeToNewsCall()
         userCategories = categoriesManager.fetchCategories() ?? []
+        bindCountryCodeToNewsCall()
         checkLocationToGetCoordinates()
     }
     func bindCountryCodeToNewsCall() {
         $countryCode
+            .dropFirst()
             .sink { code in
-                for i in self.newsFetcher {
-                    self.getHeadlines(newsFetcher: i, countryCode: code)
+                if code != nil {
+                    for i in self.newsFetcher {
+                        self.getHeadlines(newsFetcher: i, countryCode: code)
+                    }
+                    if !self.userCategories.isEmpty {
+                        self.getNewsForSavedCategories(countryCode: code!)
+                    }
                 }
             }
             .store(in: &disposables)
     }
     func getHeadlines(newsFetcher: some NewsFetchable, countryCode: String?) {
-        if countryCode != nil {
-            newsFetcher.fetchHeadlines(countryCode: countryCode!.lowercased())
+        newsFetcher.fetchHeadlines(countryCode: countryCode!.lowercased())
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.headlinesDataSource = []
+                    print("error is \(error.errorDescription ?? "")")
+                }
+            } receiveValue: { newsModel in
+                if newsModel.articles != nil {
+                    self.headlinesDataSource.append(contentsOf: newsModel.articles!.compactMap { Article(articleGenericMode: $0)})
+                    self.headlinesDataSource.shuffle()
+                }
+            }
+            .store(in: &disposables)
+
+    }
+    func getNewsForSavedCategories(countryCode: String) {
+        for newsFetcher in self.newsFetcher {
+            self.getNewsForSavedCategory(newsFetcher: newsFetcher, countryCode: countryCode)
+        }
+    }
+    private func getNewsForSavedCategory(newsFetcher: some NewsFetchable, countryCode: String) {
+
+        for category in userCategories {
+            newsFetcher.fetchNewsInCategory(countryCode: countryCode.lowercased(), category: category.name)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let error):
-                        self.headlinesDataSource = []
                         print("error is \(error.errorDescription ?? "")")
                     }
                 } receiveValue: { newsModel in
                     if newsModel.articles != nil {
-                        self.headlinesDataSource.append(contentsOf: newsModel.articles!.compactMap { Article(articleGenericMode: $0)})
-                        self.headlinesDataSource.shuffle()
+                        self.tailoredNewsDataSource.append(contentsOf: newsModel.articles!.compactMap { Article(articleGenericMode: $0)})
+                        self.tailoredNewsDataSource.shuffle()
                     }
                 }
                 .store(in: &disposables)
@@ -85,6 +118,12 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
                 print("Could not determine country code")
             }
         }
+    }
+    func addCategory(category: CategoriesModel) {
+        userCategories = self.categoriesManager.addCategoryAndRefresh(category: category) ?? []
+    }
+    func deleteCategory(category: CategoriesModel) {
+        userCategories = self.categoriesManager.deleteCategoryAndRefresh(category: category) ?? []
     }
 }
 extension HomepageViewModel {
@@ -111,6 +150,15 @@ extension HomepageViewModel {
     }
 }
 class MockHomePageViewModel: HomepageViewModelProtocol {
+    var tailoredNewsDataSource: [Article] = [
+        Article(id: "123", title: "Dummy Article one", source: "CNN"),
+        Article(id: "456", title: "Dummy Article two", source: "BBC"),
+        Article(id: "789", title: "Dummy Article three", source: "FOX"),
+        Article(id: "135", title: "Dummy Article four", source: "ALJAZIRRA"),
+        Article(id: "246", title: "Dummy Article five", source: "BEIN"),
+        Article(id: "235", title: "Dummy Article six", source: "ON"),
+    ]
+
 
     var headlinesDataSource: [Article] = [
         Article(id: "123", title: "Dummy Article one", source: "CNN"),
@@ -122,5 +170,6 @@ class MockHomePageViewModel: HomepageViewModelProtocol {
     ]
 
     var userCategories: [CategoriesModel] = []
+    var storedCategories: [CategoriesModel] = [CategoriesModel(name: "technology"), CategoriesModel(name: "business"), CategoriesModel(name: "entertainment"), CategoriesModel(name: "general"), CategoriesModel(name: "health"), CategoriesModel(name: "science"), CategoriesModel(name: "sports")]
 
 }

@@ -9,4 +9,6 @@ import Foundation
 
 protocol UserPreferencesViewModelProtocol {
     var userCategories: [CategoriesModel] { get }
+    var storedCategories: [CategoriesModel] { get }
+
 }

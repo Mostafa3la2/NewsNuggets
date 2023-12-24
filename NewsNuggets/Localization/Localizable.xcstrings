@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "%@" : {
+
+    },
     "%@, %@°C" : {
       "localizations" : {
         "en" : {
@@ -60,10 +63,19 @@
     "NewsNuggets" : {
 
     },
+    "No need to worry, you can change it at any time from your profile" : {
+
+    },
     "See more" : {
 
     },
     "Trending" : {
+
+    },
+    "User Selected Categories" : {
+
+    },
+    "You don't have preferred categories yet, you can select from below list" : {
 
     }
   },

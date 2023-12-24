@@ -15,4 +15,6 @@ protocol NewsGenericModel {
 protocol NewsFetchable {
     associatedtype T: NewsGenericModel
     func fetchHeadlines(countryCode: String) -> AnyPublisher<T, ApiError>
+    func fetchNewsInCategory(countryCode: String, category: String) -> AnyPublisher<T, ApiError>
+
 }
