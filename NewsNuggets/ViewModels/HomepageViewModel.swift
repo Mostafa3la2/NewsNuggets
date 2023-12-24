@@ -151,11 +151,11 @@ extension HomepageViewModel {
 }
 class MockHomePageViewModel: HomepageViewModelProtocol {
     func addCategory(category: CategoriesModel) {
-
+        self.userCategories.append(category)
     }
     
     func deleteCategory(category: CategoriesModel) {
-        
+        self.userCategories.removeAll{$0 == category}
     }
     
     var tailoredNewsDataSource: [Article] = [
