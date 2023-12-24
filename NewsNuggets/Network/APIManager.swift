@@ -21,7 +21,7 @@ struct APIManager<Endpoint: EndpointType> {
     private var cancellables: [AnyCancellable] = []
 
     static func sendRequest<P: Codable>(_ endpoint: Endpoint) -> AnyPublisher<P, ApiError> {
-        let session = URLSession(configuration: .default)
+        let session = URLSession.shared
         do {
             let request = try self.buildRequest(from: endpoint)
             NetworkLogger.log(request: request)
