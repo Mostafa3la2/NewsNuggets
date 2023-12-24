@@ -10,5 +10,6 @@ import Foundation
 protocol UserPreferencesViewModelProtocol {
     var userCategories: [CategoriesModel] { get }
     var storedCategories: [CategoriesModel] { get }
-
+    func addCategory(category: CategoriesModel)
+    func deleteCategory(category: CategoriesModel)
 }

@@ -66,7 +66,7 @@ struct HomePageView<T>: View where T: HomepageViewModelProtocol {
                                         topTrailingRadius: 8
                                     ))
                                     .padding(.leading, 10)
-                                    CategoriesPicker(categories: homepageViewModel.storedCategories)
+                                    CategoriesPicker<T>(categories: homepageViewModel.storedCategories)
                                 }
                             } else {
                                 ArticlesHorizontalListView(articles: homepageViewModel.tailoredNewsDataSource)
@@ -86,7 +86,7 @@ struct HomePageView<T>: View where T: HomepageViewModelProtocol {
 #Preview {
     return HomePageView<MockHomePageViewModel>(homepageViewModel: MockHomePageViewModel())
 }
-struct CategoriesPicker: View {
+struct CategoriesPicker<T>: View where T: HomepageViewModelProtocol {
     var categories: [CategoriesModel]
     var gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 8), GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 8)]
 
@@ -94,30 +94,32 @@ struct CategoriesPicker: View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: gridItems) {
                 ForEach((categories), id: \.self) { category in
-                    CategoryGridItem(category: category)
+                    CategoryGridItem<T>(category: category)
                 }
             }
         }
     }
 }
 
-struct CategoryGridItem: View {
-    @EnvironmentObject var homepageViewmodel: HomepageViewModel
+struct CategoryGridItem<T>: View  where T: HomepageViewModelProtocol {
+    @EnvironmentObject var homepageViewmodel: T
 
     var category: CategoriesModel
-    
+    @State var selected = false
     var body: some View {
         Button("\(category.name)") {
             if !homepageViewmodel.userCategories.contains(category) {
                 homepageViewmodel.addCategory(category: category)
+                selected = true
             } else {
                 homepageViewmodel.deleteCategory(category: category)
+                selected = false
             }
         }
         .foregroundStyle(.black)
         .padding(.all, 8)
         .frame(width: .infinity)
-        .background(MyColors.BabyBlue.color)
+        .background((selected == true)  ? MyColors.BabyBlue.color: .gray)
         .clipShape(.rect(
             topLeadingRadius: 8,
             bottomLeadingRadius: 8,

@@ -150,6 +150,14 @@ extension HomepageViewModel {
     }
 }
 class MockHomePageViewModel: HomepageViewModelProtocol {
+    func addCategory(category: CategoriesModel) {
+
+    }
+    
+    func deleteCategory(category: CategoriesModel) {
+        
+    }
+    
     var tailoredNewsDataSource: [Article] = [
         Article(id: "123", title: "Dummy Article one", source: "CNN"),
         Article(id: "456", title: "Dummy Article two", source: "BBC"),
