@@ -9,18 +9,26 @@ import SwiftUI
 
 struct MainTabBarView: View {
     @State var selectedTab = 0
+    var mock = false
 
     var body: some View {
         GeometryReader { geometry in
-
             ZStack(alignment: .bottom) {
                 TabView(selection: $selectedTab) {
-                    HomePageNavigationView()
+                    HomePageNavigationView(mock: mock)
                         .tag(0)
                         .toolbar(.hidden, for: .tabBar)
-
+                    ExploreNavigationView()
+                        .tag(1)
+                        .toolbar(.hidden, for: .tabBar)
+                    HomePageNavigationView(mock: mock)
+                        .tag(2)
+                        .toolbar(.hidden, for: .tabBar)
+                    HomePageNavigationView(mock: mock)
+                        .tag(3)
+                        .toolbar(.hidden, for: .tabBar)
                 }
-                CustomTabBar(selectedTab: selectedTab, geometry: geometry)
+                CustomTabBar(selectedTab: $selectedTab, geometry: geometry)
             }
             .ignoresSafeArea()
         }
@@ -28,7 +36,7 @@ struct MainTabBarView: View {
 }
 
 #Preview {
-    MainTabBarView()
+    MainTabBarView(mock: true)
 }
 
 enum TabbedScreens: Int, CaseIterable {
@@ -65,11 +73,11 @@ enum TabbedScreens: Int, CaseIterable {
 }
 
 struct CustomTabBar: View {
-    @State var selectedTab = 0
+    @Binding var selectedTab: Int
     var geometry: GeometryProxy?
     var bottomSafeArea: CGFloat?
-    init(selectedTab: Int = 0, geometry: GeometryProxy? = nil) {
-        self.selectedTab = selectedTab
+    init(selectedTab: Binding<Int>, geometry: GeometryProxy? = nil) {
+        self._selectedTab = selectedTab
         self.geometry = geometry
 
         // why this and not geometry safearea? geometry safe area changes when keyboard expands

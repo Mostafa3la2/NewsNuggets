@@ -37,6 +37,8 @@
 		0D57EE042B0FF278009DE125 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE032B0FF278009DE125 /* MainTabBarView.swift */; };
 		0D57EE062B0FF32F009DE125 /* HomePageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */; };
 		0D57EE082B101CD6009DE125 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57EE072B101CD6009DE125 /* Colors.swift */; };
+		0D582B052B3A32C4009759A9 /* ExploreTrendingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D582B042B3A32C4009759A9 /* ExploreTrendingPage.swift */; };
+		0D582B072B3A32D6009759A9 /* ExploreNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D582B062B3A32D6009759A9 /* ExploreNavigationView.swift */; };
 		0D64715B2B2D27B100C0FE36 /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64715A2B2D27B100C0FE36 /* CategoriesModel.swift */; };
 		0D64715F2B2D457700C0FE36 /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64715E2B2D457700C0FE36 /* HomepageViewModel.swift */; };
 		0D6471612B2DF12000C0FE36 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6471602B2DF12000C0FE36 /* Strings.swift */; };
@@ -107,6 +109,8 @@
 		0D57EE032B0FF278009DE125 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		0D57EE052B0FF32F009DE125 /* HomePageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageNavigationView.swift; sourceTree = "<group>"; };
 		0D57EE072B101CD6009DE125 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		0D582B042B3A32C4009759A9 /* ExploreTrendingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTrendingPage.swift; sourceTree = "<group>"; };
+		0D582B062B3A32D6009759A9 /* ExploreNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreNavigationView.swift; sourceTree = "<group>"; };
 		0D64715A2B2D27B100C0FE36 /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		0D64715E2B2D457700C0FE36 /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
 		0D6471602B2DF12000C0FE36 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -308,6 +312,7 @@
 			children = (
 				0D48D74F2B13D3F9001E8989 /* Modules */,
 				0D48D7442B114353001E8989 /* Home */,
+				0D582B032B3A329E009759A9 /* Explore */,
 				0D57EDF72B0EA80C009DE125 /* SplashScreenView.swift */,
 				0D57EDFE2B0EB560009DE125 /* LandingPageView.swift */,
 				0D57EE032B0FF278009DE125 /* MainTabBarView.swift */,
@@ -332,6 +337,15 @@
 				0D57EE012B0EC8C0009DE125 /* Localizable.xcstrings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		0D582B032B3A329E009759A9 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				0D582B042B3A32C4009759A9 /* ExploreTrendingPage.swift */,
+				0D582B062B3A32D6009759A9 /* ExploreNavigationView.swift */,
+			);
+			path = Explore;
 			sourceTree = "<group>";
 		};
 		0D6471592B2D279D00C0FE36 /* Categories */ = {
@@ -520,6 +534,7 @@
 				0D6471672B2E37A400C0FE36 /* WeatherNavigationBar.swift in Sources */,
 				0DB3CC9B2B1FEE3B00835810 /* EndpointsPaths.swift in Sources */,
 				0D13546B2B22441700208865 /* NewsAPIBuilder.swift in Sources */,
+				0D582B052B3A32C4009759A9 /* ExploreTrendingPage.swift in Sources */,
 				0DF66BCB2B15768600FB009C /* CustomBackButton.swift in Sources */,
 				0D48D7462B114367001E8989 /* HomePageView.swift in Sources */,
 				0D13546D2B22442300208865 /* NewsModel.swift in Sources */,
@@ -538,6 +553,7 @@
 				0DB3CC972B1FEB1C00835810 /* ParametersEncoding.swift in Sources */,
 				0D57EDFD2B0EB2BE009DE125 /* Typography.swift in Sources */,
 				0D57EE062B0FF32F009DE125 /* HomePageNavigationView.swift in Sources */,
+				0D582B072B3A32D6009759A9 /* ExploreNavigationView.swift in Sources */,
 				0D57EDF82B0EA80C009DE125 /* SplashScreenView.swift in Sources */,
 				0D1354662B21382600208865 /* WeatherAPIBuilder.swift in Sources */,
 			);

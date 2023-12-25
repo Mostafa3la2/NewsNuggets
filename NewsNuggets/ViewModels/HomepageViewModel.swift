@@ -20,7 +20,7 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
     private let locationManager = CLLocationManager()
     private var disposables = Set<AnyCancellable>()
 
-    var storedCategories: [CategoriesModel] = [CategoriesModel(name: "technology"), CategoriesModel(name: "business"), CategoriesModel(name: "entertainment"), CategoriesModel(name: "general"), CategoriesModel(name: "health"), CategoriesModel(name: "science"), CategoriesModel(name: "sports")]
+    var storedCategories: [CategoriesModel] = []
 
     @Published var state: String?
     @Published var temp: String?
@@ -39,6 +39,7 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
         self.newsFetcher = newsFetcher
         self.categoriesManager = categoriesManager
         super.init()
+        self.storedCategories = categoriesManager.getAllCategories() ?? []
         userCategories = categoriesManager.fetchCategories() ?? []
         bindCountryCodeToNewsCall()
         checkLocationToGetCoordinates()
