@@ -45,11 +45,14 @@ class CategoriesManager: CategoriesManagable {
     
     func getAllCategories() -> [CategoriesModel]? {
         if allCategories.filter({$0.id != 0}).isEmpty {
-            let storedCategories: [CategoriesModel] = [CategoriesModel(name: "technology", id: 1), CategoriesModel(name: "business", id: 2), CategoriesModel(name: "entertainment", id: 3), CategoriesModel(name: "general", id: 4), CategoriesModel(name: "health", id: 5), CategoriesModel(name: "science", id: 6), CategoriesModel(name: "sports", id: 7)]
+            print("no categories found")
+            let storedCategories = [CategoriesModel(name: "technology", id: 1), CategoriesModel(name: "business", id: 2), CategoriesModel(name: "entertainment", id: 3), CategoriesModel(name: "general", id: 4), CategoriesModel(name: "health", id: 5), CategoriesModel(name: "science", id: 6), CategoriesModel(name: "sports", id: 7)]
             for i in storedCategories {
                 modelContext.insert(i)
             }
+            return storedCategories
+        } else {
+            return allCategories.filter{$0.id != 0}
         }
-        return allCategories.filter{$0.id != 0}
     }
 }

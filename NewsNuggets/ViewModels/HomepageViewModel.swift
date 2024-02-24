@@ -39,8 +39,8 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
         self.newsFetcher = newsFetcher
         self.categoriesManager = categoriesManager
         super.init()
-        self.storedCategories = categoriesManager.getAllCategories() ?? []
         userCategories = categoriesManager.fetchCategories() ?? []
+        self.storedCategories = categoriesManager.getAllCategories() ?? []
         bindCountryCodeToNewsCall()
         checkLocationToGetCoordinates()
     }
@@ -115,16 +115,18 @@ class HomepageViewModel: NSObject, ObservableObject, Identifiable, HomepageViewM
 
             if let country = placemarks?.first?.isoCountryCode {
                 self.countryCode = country
+                UserDefaults.standard.setValue(country, forKey: "country")
             } else {
                 print("Could not determine country code")
             }
         }
     }
     func addCategory(category: CategoriesModel) {
-        userCategories = self.categoriesManager.addCategoryAndRefresh(category: category) ?? []
+        // make sure to copy it without the id
+        userCategories = self.categoriesManager.addCategoryAndRefresh(category: CategoriesModel(name: category.name)) ?? []
     }
     func deleteCategory(category: CategoriesModel) {
-        userCategories = self.categoriesManager.deleteCategoryAndRefresh(category: category) ?? []
+        userCategories = self.categoriesManager.deleteCategoryAndRefresh(category: CategoriesModel(name: category.name)) ?? []
     }
 }
 extension HomepageViewModel {

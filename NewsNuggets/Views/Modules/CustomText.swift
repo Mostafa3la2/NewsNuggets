@@ -12,6 +12,7 @@ enum TextTypes {
     case heading
     case title
     case navigationTitle
+    case smallTitle
     case body
     case grayBody
 }
@@ -34,6 +35,8 @@ struct CustomText: View {
             return .custom(Typography.medium.name, size: 24)
         case .navigationTitle:
             return .custom(Typography.medium.name, size: 22)
+        case .smallTitle:
+            return .custom(Typography.medium.name, size: 18)
         case .body:
             return .custom(Typography.regular.name, size: 16)
         case .grayBody:
